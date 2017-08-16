@@ -290,7 +290,7 @@ class Sparkline
         $lineThickness = $this->lineThickness * $this->ratioComputing;
         $count = count($this->data);
         $step = $width / ($count - 1);
-        $max = max($this->data);
+        $max = max($this->data) + max($this->data) * 0.20;
         if ($this->base) {
             $max = $this->base;
         }
@@ -310,12 +310,9 @@ class Sparkline
         $minHeight = 1 * $this->ratioComputing;
         $maxHeight = $height - $minHeight;
         foreach ($this->data as $i => $value) {
-            $value = (int)$value;
-            if ($value <= 0) {
-                $value = 0;
-            }
+            $value = floatval( $value );
             if ($value > 0) {
-                $value = round($value / $max * $height);
+                $value = round($value / $max * $height, 6); // with decimals
             }
             $this->data[$i] = max($minHeight, min($value, $maxHeight));
         }
